@@ -35,7 +35,7 @@ just plain average of coverage rates for sub-projects.
 
 ## Installation ##
 
-Download and copy [sonar-scoverage-plugin-5.1.1.jar] [PluginJar] to the Sonar plugins directory
+Download and copy [the plugin jar](https://github.com/RadoBuransky/sonar-scoverage-plugin/releases) to the Sonar plugins directory
 (usually <SONAR_INSTALLATION_ROOT>/extensions/plugins). Restart Sonar.
 
 ## Configure Sonar runner ##
@@ -90,6 +90,22 @@ Source code markup with covered and uncovered lines:
 ![Source code markup](/doc/img/04.png "Source code markup")
 
 ## Changelog ##
+
+### 5.1.3 - 8 April 2016 ###
+
+- Fixed [issue #31](https://github.com/RadoBuransky/sonar-scoverage-plugin/issues/31)
+
+### 5.1.2 - 25 October 2015 ###
+
+**[Michael Zinsmaier](https://github.com/MichaelZinsmaier) pull requests:**
+ 
+- [Improved path handling, reported filenames are converted to src dir relative paths](https://github.com/RadoBuransky/sonar-scoverage-plugin/pull/22)
+- [Adding directory coverage thus supporting the Treemap widget](https://github.com/RadoBuransky/sonar-scoverage-plugin/pull/23)
+- [Added total statements metric to avoid overlaps with coremetrics](https://github.com/RadoBuransky/sonar-scoverage-plugin/pull/24)
+
+**[Justin Kaeser](https://github.com/jastice) pull request:**
+
+- [fix link syntax, link to releases](https://github.com/RadoBuransky/sonar-scoverage-plugin/pull/26) 
 
 ### 5.1.1 - 7 May 2015 ###
 
