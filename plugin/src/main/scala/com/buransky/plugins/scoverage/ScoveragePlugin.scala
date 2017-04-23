@@ -21,7 +21,6 @@ package com.buransky.plugins.scoverage
 
 import com.buransky.plugins.scoverage.measure.ScalaMetrics
 import com.buransky.plugins.scoverage.sensor.ScoverageSensor
-import com.buransky.plugins.scoverage.widget.ScoverageWidget
 import org.sonar.api.Plugin
 
 import scala.collection.JavaConversions._
@@ -39,8 +38,7 @@ class ScoveragePlugin extends Plugin {
     context.addExtensions(
       classOf[ScoverageExtensionProvider],
       classOf[ScalaMetrics],
-      classOf[ScoverageSensor],
-      classOf[ScoverageWidget]
+      classOf[ScoverageSensor]
     )
   }
   
