@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SONAR_HOME=~/bin/sonarqube-5.4
-PLUGIN_VERSION=5.1.3
+SONAR_HOME=/opt/sonarqube-6.3.1
+PLUGIN_VERSION=5.1.4
 
 mvn install
 
