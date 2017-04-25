@@ -39,6 +39,7 @@ import java.io.File
 import com.buransky.plugins.scoverage.pathcleaner.PathSanitizer
 import org.sonar.api.batch.fs.InputDir
 import com.buransky.plugins.scoverage.language.Scala
+import java.nio.file.Path
 
 /**
  *  Main sensor for importing Scoverage report to Sonar.
@@ -59,11 +60,19 @@ class ScoverageSensor(pathResolver: PathResolver) extends Sensor {
   
   override def execute(context: SensorContext): Unit = {
     val reportPath = scoverageReportPath(context)
-    val sonarSrcPath = scalaSourcePath(context)
-    log.info(s"executing scoverage on ${context.module.key()} ( report: $reportPath)")
+    val sonarSrc = new File(scalaSourcePath(context))
+    val baseDir = context.fileSystem().baseDir
     
-    val pathSanitizer = createPathSanitizer(context.fileSystem().baseDir(), sonarSrcPath)
-    processModule(scoverageReportParser.parse(reportPath, pathSanitizer), context, sonarSrcPath)
+    val relSourcePath = if (sonarSrc.isAbsolute()) {
+      sonarSrc.getPath().drop(baseDir.getPath().length() + 1)
+    } else {
+      sonarSrc.getPath()
+    }
+    
+    log.info(s"executing scoverage on ${context.module.key()} ( report: $reportPath, src: $relSourcePath)")
+    
+    val pathSanitizer = createPathSanitizer(baseDir, relSourcePath)
+    processModule(scoverageReportParser.parse(reportPath, pathSanitizer), context, relSourcePath)
   }
 
   override def describe(descriptor: SensorDescriptor): Unit = {
@@ -92,8 +101,7 @@ class ScoverageSensor(pathResolver: PathResolver) extends Sensor {
     dirOrFile match {
       case dir: DirectoryStatementCoverage => processDirectory(dir, context, directory)
       case file: FileStatementCoverage => processFile(file, context, directory)
-      case _ => throw new IllegalStateException("Not a file or directory coverage! [" +
-        dirOrFile.getClass.getName + "]")
+      case _ => throw new IllegalStateException("Not a file or directory coverage! [" + dirOrFile.getClass.getName + "]")
     }
   }
   
@@ -134,11 +142,13 @@ class ScoverageSensor(pathResolver: PathResolver) extends Sensor {
 
   private def getInputFile(path: String, context: SensorContext): Option[InputFile] = {   
     val fileSystem = context.fileSystem()
-    val p = fileSystem.predicates()
+    val p = fileSystem.predicates()  
     
+    log.debug(s"attempting to find $path in ${fileSystem.baseDir}")
+        
     Option(fileSystem.inputFile(p.and(
         p.hasRelativePath(path),
-        p.hasLanguage("Scala"),
+        p.hasLanguage(Scala.key),
         p.hasType(InputFile.Type.MAIN)))
     )
   }

@@ -26,6 +26,7 @@ import BruteForceSequenceMatcher._
 import com.buransky.plugins.scoverage.util.PathUtil
 import scala.collection.JavaConversions._
 import org.sonar.api.utils.log.Loggers
+import java.nio.file.Paths
 
 object BruteForceSequenceMatcher {
 
@@ -50,14 +51,13 @@ object BruteForceSequenceMatcher {
 class BruteForceSequenceMatcher(baseDir: File, sourcePath: String) extends PathSanitizer {
 
   private val sourceDir = initSourceDir()
-  require(sourceDir.isAbsolute)
-  require(sourceDir.isDirectory)
+  require(sourceDir.isAbsolute, s"sourceDir $sourceDir is not an absolute path")
+  require(sourceDir.isDirectory, s"sourceDir $sourceDir is not a directory")
 
   private val log = Loggers.get(classOf[BruteForceSequenceMatcher])
   private val sourcePathLength = PathUtil.splitPath(sourceDir.getAbsolutePath).size  
   private val filesMap = initFilesMap()
-  
-  
+    
   def getSourceRelativePath(reportPath: PathSeq): Option[PathSeq] = {
     // match with file system map of files     
     val relPathOption = for {
