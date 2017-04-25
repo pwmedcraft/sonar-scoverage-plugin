@@ -22,24 +22,27 @@ package com.buransky.plugins.scoverage
 import com.buransky.plugins.scoverage.measure.ScalaMetrics
 import com.buransky.plugins.scoverage.sensor.ScoverageSensor
 import com.buransky.plugins.scoverage.widget.ScoverageWidget
-import org.sonar.api.{Extension, SonarPlugin}
+import org.sonar.api.Plugin
 
 import scala.collection.JavaConversions._
 import scala.collection.mutable.ListBuffer
+import org.sonar.api.utils.log.Loggers
 
 /**
  * Plugin entry point.
  *
  * @author Rado Buransky
  */
-class ScoveragePlugin extends SonarPlugin {
-  override def getExtensions: java.util.List[Class[_ <: Extension]] =
-    ListBuffer(
+class ScoveragePlugin extends Plugin {
+  
+  override def define(context: Plugin.Context) {
+    context.addExtensions(
       classOf[ScoverageExtensionProvider],
       classOf[ScalaMetrics],
       classOf[ScoverageSensor],
       classOf[ScoverageWidget]
     )
-
+  }
+  
   override val toString = getClass.getSimpleName
 }
