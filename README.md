@@ -1,3 +1,19 @@
+# dev branch
+
+Updates SonarQube version to 6.3
+
+### working
+ - single module project provide line coverage and statement coverage
+
+### known issues
+ - SonarQube dropped plugin UI support
+ - provided treemap does not work correctly with Scala (potentially because the "language" is not registred fully?)
+ - multi module aggregation of custom statement meassures does not work
+
+# original document
+
+
+
 #Scoverage Plugin for Sonar#
 
 [![Build Status](https://travis-ci.org/RadoBuransky/sonar-scoverage-plugin.png)](https://travis-ci.org/RadoBuransky/sonar-scoverage-plugin)
