@@ -29,7 +29,7 @@ import scala.collection.mutable.ListBuffer
  *
  * @author Rado Buransky
  */
-class ScalaMetrics extends Metrics {
+class ScalaMetrics extends Metrics { 
   override def getMetrics = ListBuffer(ScalaMetrics.statementCoverage, ScalaMetrics.coveredStatements, ScalaMetrics.totalStatements).toList
 }
 
@@ -43,7 +43,7 @@ object ScalaMetrics {
     .setDescription("Statement coverage by tests")
     .setDirection(Metric.DIRECTION_BETTER)
     .setQualitative(true)
-    .setDomain(CoreMetrics.DOMAIN_TESTS)
+    .setDomain(CoreMetrics.DOMAIN_COVERAGE)
     .setWorstValue(0.0)
     .setBestValue(100.0)
     .create[java.lang.Double]()
